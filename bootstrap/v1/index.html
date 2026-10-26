@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Album example</title>
+  <style>
+    @page { size: 726px 896px; margin: 0; }
+
+    :root {
+      --navbar: #323a40;
+      --thumbnail: #54595c;
+      --muted: #6c757d;
+      --page: #f8f9fa;
+      --border: #dedede;
+      --primary: #0878f9;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; min-height: 100%; }
+
+    body {
+      color: #212529;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                   "Helvetica Neue", Arial, sans-serif;
+      background: var(--page);
+    }
+
+    .navbar {
+      height: 29px;
+      color: #fff;
+      background: var(--navbar);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, .12);
+      position: relative;
+      z-index: 1;
+    }
+
+    .navbar-inner {
+      width: min(556px, calc(100% - 32px));
+      height: 100%;
+      transform: translateX(2px);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      text-decoration: none;
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 600;
+    }
+
+    .brand svg { width: 10px; height: 10px; display: block; }
+
+    .navbar-toggle {
+      width: 29px;
+      height: 21px;
+      border: 1px solid #596168;
+      border-radius: 2px;
+      background: transparent;
+      padding: 4px 7px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .navbar-toggle span {
+      display: block;
+      width: 13px;
+      height: 1px;
+      background: #aab0b5;
+    }
+
+    .hero {
+      height: 205px;
+      background: #fff;
+      text-align: center;
+      padding: 49px 16px 0;
+    }
+
+    .hero h1 {
+      margin: 0 0 3px;
+      font-size: 20px;
+      line-height: 24px;
+      font-weight: 400;
+      color: #111;
+    }
+
+    .hero p {
+      width: min(100%, 300px);
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 15px;
+      font-weight: 400;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 3px;
+      margin-top: 12px;
+    }
+
+    .hero-button {
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border: 1px solid transparent;
+      border-radius: 2px;
+      color: #fff;
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 7px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .hero-button.primary { width: 78px; background: var(--primary); border-color: var(--primary); }
+    .hero-button.secondary { width: 76px; background: #6c757d; border-color: #6c757d; }
+    .hero-actions { transform: translateX(1px); }
+
+    .album {
+      min-height: 662px;
+      padding: 24px 0 29px;
+      background: var(--page);
+    }
+
+    .cards {
+      width: min(556px, calc(100% - 32px));
+      margin: 0 auto;
+      transform: translateX(2px);
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      column-gap: 16px;
+      row-gap: 12px;
+    }
+
+    .card {
+      height: 195px;
+      min-width: 0;
+      background: #fff;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, .07);
+      overflow: hidden;
+    }
+
+    .thumbnail {
+      height: 113px;
+      background: var(--thumbnail);
+      color: #f8f9fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 600;
+    }
+
+    .card-body {
+      height: 80px;
+      padding: 9px 10px 9px;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+    }
+
+    .card-body p {
+      margin: 0 0 10px;
+      color: #17191b;
+      font-size: 8px;
+      line-height: 11px;
+      font-weight: 400;
+    }
+
+    .card-footer {
+      height: 16px;
+      min-height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+    }
+
+    .button-group { display: inline-flex; height: 16px; align-items: stretch; }
+
+    .mini-button {
+      height: 16px;
+      margin: 0;
+      padding: 0;
+      width: 23px;
+      flex: 0 0 23px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #87929a;
+      background: #fff;
+      color: #53616c;
+      font-family: inherit;
+      font-size: 8px;
+      line-height: 14px;
+      text-decoration: none;
+    }
+
+    .mini-button + .mini-button { margin-left: -1px; width: 22px; flex-basis: 22px; }
+    .mini-button { position: relative; top: 1px; }
+    .timestamp { color: var(--muted); font-size: 6.5px; line-height: 1; white-space: nowrap; }
+
+    .nav-menu {
+      display: none;
+      position: absolute;
+      right: max(16px, calc((100% - 552px) / 2));
+      top: 29px;
+      background: var(--navbar);
+      border: 1px solid #596168;
+      padding: 7px 10px;
+      font-size: 10px;
+    }
+    .nav-menu.open { display: block; }
+    .nav-menu a { color: #fff; text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); transform: none; }
+      .album { min-height: calc(100vh - 234px); }
+    }
+
+    @media (max-width: 400px) {
+      .cards { grid-template-columns: 1fr; max-width: 260px; }
+      .hero { padding-top: 42px; }
+      .hero h1 { font-size: 19px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar" aria-label="Main navigation">
+    <div class="navbar-inner">
+      <a class="brand" href="#top" aria-label="Album home">
+        <svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round">
+          <path d="M2 5h3l1.1-1.6h3.8L11 5h3v8H2z" />
+          <circle cx="8" cy="9" r="2.2" />
+        </svg>
+        <span>Album</span>
+      </a>
+      <button class="navbar-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-menu" id="nav-menu"><a href="#cards">Browse album</a></div>
+  </nav>
+
+  <header class="hero" id="top">
+    <h1>Album example</h1>
+    <p>Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+    <div class="hero-actions">
+      <a class="hero-button primary" href="#cards">Main call to action</a>
+      <a class="hero-button secondary" href="#cards">Secondary action</a>
+    </div>
+  </header>
+
+  <main class="album" id="cards">
+    <div class="cards">
+      <article class="card"><div class="thumbnail">Thumbnail</div><div class="card-body"><p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p><div class="card-footer"><div class="button-group"><a class="mini-button" href="#view-1">View</a><a class="mini-button" href="#edit-1">Edit</a></div><span class="timestamp">9 mins</span></div></div></article>
+      <article class="card"><div class="thumbnail">Thumbnail</div><div class="card-body"><p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p><div class="card-footer"><div class="button-group"><a class="mini-button" href="#view-2">View</a><a class="mini-button" href="#edit-2">Edit</a></div><span class="timestamp">9 mins</span></div></div></article>
+      <article class="card"><div class="thumbnail">Thumbnail</div><div class="card-body"><p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p><div class="card-footer"><div class="button-group"><a class="mini-button" href="#view-3">View</a><a class="mini-button" href="#edit-3">Edit</a></div><span class="timestamp">9 mins</span></div></div></article>
+      <article class="card"><div class="thumbnail">Thumbnail</div><div class="card-body"><p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p><div class="card-footer"><div class="button-group"><a class="mini-button" href="#view-4">View</a><a class="mini-button" href="#edit-4">Edit</a></div><span class="timestamp">9 mins</span></div></div></article>
+      <article class="card"><div class="thumbnail">Thumbnail</div><div class="card-body"><p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p><div class="card-footer"><div class="button-group"><a class="mini-button" href="#view-5">View</a><a class="mini-button" href="#edit-5">Edit</a></div><span class="timestamp">9 mins</span></div></div></article>
+      <article class="card"><div class="thumbnail">Thumbnail</div><div class="card-body"><p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p><div class="card-footer"><div class="button-group"><a class="mini-button" href="#view-6">View</a><a class="mini-button" href="#edit-6">Edit</a></div><span class="timestamp">9 mins</span></div></div></article>
+      <article class="card"><div class="thumbnail">Thumbnail</div><div class="card-body"><p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p><div class="card-footer"><div class="button-group"><a class="mini-button" href="#view-7">View</a><a class="mini-button" href="#edit-7">Edit</a></div><span class="timestamp">9 mins</span></div></div></article>
+      <article class="card"><div class="thumbnail">Thumbnail</div><div class="card-body"><p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p><div class="card-footer"><div class="button-group"><a class="mini-button" href="#view-8">View</a><a class="mini-button" href="#edit-8">Edit</a></div><span class="timestamp">9 mins</span></div></div></article>
+      <article class="card"><div class="thumbnail">Thumbnail</div><div class="card-body"><p>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p><div class="card-footer"><div class="button-group"><a class="mini-button" href="#view-9">View</a><a class="mini-button" href="#edit-9">Edit</a></div><span class="timestamp">9 mins</span></div></div></article>
+    </div>
+  </main>
+
+  <script>
+    const toggle = document.querySelector('.navbar-toggle');
+    const menu = document.querySelector('.nav-menu');
+    toggle.addEventListener('click', () => {
+      const isOpen = menu.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+    });
+  </script>
+</body>
+</html>
